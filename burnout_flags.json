@@ -1,51 +1,57 @@
 {
-  "timestamp": "2025-11-08T17:35:37.779110",
-  "burnout_risk_score": 8.1,
+  "timestamp": "2025-11-08T19:47:36.565400",
+  "burnout_risk_score": 8.7,
   "risk_level": "HIGH \ud83d\udd34",
   "top_insights": [
-    "Switching rate is critical: 159.8 switches/hour on average (normal 20-40; critical >100), with a peak of 344/hour.",
-    "Sessions are micro-fragmented: average session is 1.8 minutes; 48.6% are <0.9 min, only 12.5% exceed 3.6 min.",
-    "App/task sprawl is high: 83 unique windows detected, a strong driver of attention residue and reactivation costs.",
-    "Work is spread thin: 3.52 hours logged across 8 active hours, increasing restart friction and perceived effort.",
-    "Circadian pattern: no evening work (good), but 10.3% of activity occurs before 7 AM, which can strain sleep if not compensated."
+    "Switching rate is critical: 159.8 switches/hour on average (normal 20-40) with a 344/hr peak \u2014 4-8x sustainable levels.",
+    "Focus is highly fragmented: average session 1.8 minutes; 48.6% of sessions are <0.9 minutes (micro-switching).",
+    "High context load: 83 unique windows in 3.52 hours indicates heavy multi-app juggling and attention residue.",
+    "Work is scattered across an 8-hour span with some early-morning activity (10.3%) and no evening work \u2014 low total time but prolonged availability window.",
+    "Recent activity shows ping-ponging between ~2 windows (2.1 unique) yet 86 switches in 15 minutes \u2014 compulsive toggling rather than progress."
   ],
-  "flags_detected": 6,
+  "flags_detected": 7,
   "flags": [
     {
-      "category": "Fragmentation",
+      "category": "Switching Overload",
       "severity": 10,
-      "message": "Average switching rate 159.8/hr (4x normal; above the 100+/hr critical threshold) with a peak of 344/hr indicates severe context thrashing.",
-      "prescription": "Schedule 3 daily 45-minute Focus blocks where an app/website blocker allows only your primary work app; all notifications off and non-essential apps blocked."
+      "message": "Average switching rate 159.8/hr (critical) and peak 344/hr are unsustainable and will rapidly deplete attentional resources.",
+      "prescription": "Turn on Do Not Disturb and keep only one work window open for the next 25 minutes."
+    },
+    {
+      "category": "Fragmentation",
+      "severity": 9,
+      "message": "Average session length is 1.8 minutes, with 48.6% of sessions under 0.9 minutes \u2014 consistent with constant micro-switching and no consolidation of attention.",
+      "prescription": "Work in 25/5 cycles for the next 2 hours (four 25-minute focus blocks with 5-minute breaks)."
+    },
+    {
+      "category": "Context Load",
+      "severity": 8,
+      "message": "83 unique windows in 3.52 hours indicates excessive context breadth and attention residue.",
+      "prescription": "Before your next task, cap open windows to 5 total and save everything else to a 'Later' list."
     },
     {
       "category": "Session Pattern",
-      "severity": 8,
-      "message": "Average session length is 1.8 minutes with 48.6% of sessions under 0.9 minutes and only 12.5% over 3.6 minutes\u2014insufficient sustained focus or restorative breaks.",
-      "prescription": "Adopt two daily ultradian cycles for 1 week: each cycle = 2 \u00d7 25-minute focus sprints with 5-minute micro-breaks, then a 15-minute recovery break."
+      "severity": 9,
+      "message": "Recent 15-minute interval had 86 switches while averaging ~2 unique windows \u2014 rapid back-and-forth ('alt-tab ping-pong') rather than steady progress.",
+      "prescription": "Place the two active apps side-by-side in split-screen and stop alt-tabbing for the next 60 minutes."
     },
     {
-      "category": "App Proliferation",
-      "severity": 7,
-      "message": "83 unique windows suggest excessive app/tab churn, inflating attention residue and decision fatigue.",
-      "prescription": "Work in a single dedicated desktop per task and cap active windows at 3; move all other windows to a separate desktop opened only during breaks."
-    },
-    {
-      "category": "Time Distribution",
+      "category": "Availability Span",
       "severity": 6,
-      "message": "3.52 hours of work distributed across 8 active hours implies frequent reactivation costs and all-day vigilance.",
-      "prescription": "Timebox into two contiguous work blocks (AM and early PM) totaling 3.5\u20134.5 hours; restrict email/Slack to two 15-minute windows (e.g., 11:30 and 16:30)."
+      "message": "Active across 8 hours but only 3.52 hours logged \u2014 scattered bursts increase start-up costs and perceived always-on load.",
+      "prescription": "Choose a 6-hour work window today (e.g., 9\u20133) and do not work outside that window."
     },
     {
-      "category": "Circadian Rhythm",
+      "category": "Circadian Pattern",
       "severity": 4,
-      "message": "10.3% of activity occurs before 7 AM; while evening work is 0%, pre-7 AM work can truncate sleep and degrade cognitive control.",
-      "prescription": "Avoid pre-7:00 AM work for the next 14 days; anchor wake time within \u00b130 minutes and get 10\u201315 minutes of outdoor light within 1 hour of waking."
+      "message": "No evening work (good), but 10.3% early-morning activity can impair recovery if it shortens sleep.",
+      "prescription": "Only work before 7 AM on nights when you achieved at least 7 hours of sleep; otherwise shift early tasks to mid-morning."
     },
     {
-      "category": "Acute Flare-Up",
-      "severity": 6,
-      "message": "Recent spike: 86 switches in 15 minutes (~344/hr) suggests notification storms or multitasking under pressure.",
-      "prescription": "When switches exceed 60 in 15 minutes, trigger a 3-minute reset: step away, take 10 slow breaths, write one next action, then resume the single task."
+      "category": "Overwork",
+      "severity": 2,
+      "message": "Total logged time is 3.52 hours \u2014 load is not excessive, but intensity is very high.",
+      "prescription": "Prioritize intensity reduction over hours: schedule one 60\u201390 minute deep block tomorrow morning as your sole high-focus session."
     }
   ],
   "metrics_summary": "\nWORK SESSION METRICS:\n- Total logged time: 3.52 hours\n- Total window switches: 580\n- Average switching rate: 159.8 switches/hour\n- Peak switching rate: 344.0 switches/hour\n- Average session duration: 1.8 minutes\n\nSESSION PATTERNS:\n- Brief sessions (<50% of average): 48.6%\n- Extended sessions (>200% of average): 12.5%\n- Unique windows detected: 83\n\nTEMPORAL PATTERNS:\n- Evening work (after 6 PM): 0.0%\n- Early morning work (before 7 AM): 10.3%\n- Hours active: 8\n- Time distribution: {'Morning': 1814, 'Midday': 266, 'Night': 260, 'Early_Morning': 195}\n\nRECENT ACTIVITY INTENSITY:\n- Max recent switching (last 15 min): 86 switches\n- Average unique windows in last 10 intervals: 2.1\n"
