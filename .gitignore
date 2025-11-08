@@ -1,0 +1,7 @@
+.env
+.local.env
+activity_log01.csv
+classified_activity01.csv
+venv/
+.venv/
+env/

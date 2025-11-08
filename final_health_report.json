@@ -1,0 +1,5 @@
+{
+    "risk_score_der": 2,
+    "narrative_summary": "The current cognitive workload analysis indicates a high level of focus and effective deep work strategy, as evidenced by a Focus Quality Score of 93.77%. The Context Switch Cost is measured at 0.88 seconds per hour, indicating minimal cognitive strain during task transitions. However, High Load activity is not directly provided, but inferred to be high due to the Time Logged Duration being over the 45-minute mark and effective planning suggested by the high FQS.",
+    "actionable_prescription": "Maintain the high level of focus with minor adjustments. Consider implementing a scheduled 10-minute analog break to help sustain your cognitive performance and mitigate any potential mental fatigue. With your current high FQS, focus less on task fragmentation and more on the duration of deep work sessions."
+}
