@@ -5,3 +5,4 @@ classified_activity01.csv
 venv/
 .venv/
 env/node_modules/
+node_modules/

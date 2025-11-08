@@ -6,31 +6,40 @@ import os
 import subprocess
 from pathlib import Path
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
 # Allow React frontend to call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
-    allow_credentials=True,
+    allow_origins=["*"], 
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Point to your CSV files (adjust paths as needed)
+BASE_DIR = Path(__file__).parent.parent  # Go up from ui/server.py to repo root
+
+logger.info(f"🔍 BASE_DIR: {BASE_DIR}")
+logger.info(f"🔍 BASE_DIR exists: {BASE_DIR.exists()}")
+logger.info(f"🔍 Current working directory: {os.getcwd()}")
 CSV_PATHS = {
-    "enriched": "../activity_log_enriched01.csv",
-    "classified": "../classified_activity01.csv",
-    "fragmented": "../fragmented_activity01.csv",
-    "burnout": "../burnout_flags.json",
-    "health_report": "../final_health_report.json",
+    "enriched": BASE_DIR / "activity_log_enriched01.csv",
+    "classified": BASE_DIR / "classified_activity01.csv",
+    "fragmented": BASE_DIR / "fragmented_activity01.csv",
+    "burnout": BASE_DIR / "burnout_flags.json",
+    "health_report": BASE_DIR / "final_health_report.json",
 }
 
 def safe_read_csv(filepath):
     """Safely read CSV and return as JSON"""
     try:
-        if not os.path.exists(filepath):
+        filepath = Path(filepath)
+        if not filepath.exists():
             return {"error": f"File not found: {filepath}"}
         
         df = pd.read_csv(filepath)
@@ -54,12 +63,15 @@ def safe_read_json(filepath):
 @app.get("/api/health")
 async def health_check():
     """Simple health check"""
+    
+    logger.info("🏥 Health check requested")
     return {"status": "✅ Backend is running"}
 
 @app.get("/api/metrics")
 async def get_metrics():
     """Get aggregated metrics from all data sources"""
     
+    logger.info("🏥 Health check requested")
     # Read enriched data
     enriched = safe_read_csv(CSV_PATHS["enriched"])
     classified = safe_read_csv(CSV_PATHS["classified"])
@@ -70,6 +82,7 @@ async def get_metrics():
         last_row = enriched[-1]
         total_hours = len(enriched) * 5 / 3600
         
+        logger.info("🏥 printing metrics")
         # Extract metrics
         metrics = {
             "total_hours": round(total_hours, 2),
@@ -126,6 +139,11 @@ async def get_settings():
         "focus_goal_percent": 80,
         "peak_hours": "9-12, 14-17",
     }
+
+@app.post("/api/test-post")
+async def test_post():
+    logger.info("✅ POST endpoint works!")
+    return {"status": "POST works"}
 
 @app.post("/api/settings")
 async def update_settings(settings: dict):
