@@ -13,7 +13,6 @@ st.set_page_config(page_title="Cognitive Health", layout="wide", initial_sidebar
 
 # Config
 LOCAL_DATA_SERVER = "https://merry-vaporizable-bioclimatologically.ngrok-free.dev"
-# LOCAL_DATA_SERVER = "http://10.25.25.87:5000"  # Your local machine
 BASE_DIR = Path(__file__).parent.parent
 
 # ===== HELPER FUNCTIONS =====
@@ -215,41 +214,46 @@ if "error" not in data_response or not data_response["error"]:
                 
                 st.divider()
                 
-                # Bottom section: Top window titles for each category
-                st.subheader("Top Applications by Category")
+                st.subheader("Top 5 Applications by Category")
                 
                 unique_categories = classified["Category"].unique()
-                print(f'Unique categories: {unique_categories} ')
                 for category in sorted(unique_categories):
                     with st.container():
                         col1, col2, col3 = st.columns(3)
                         
                         category_data = classified[classified["Category"] == category]
                         
-                        if "Window_Title" in category_data.columns:
-                            window_counts = category_data["Window_Title"].value_counts().head(5)
+                        if "App_Name" in category_data.columns:
+                            app_counts = category_data["App_Name"].value_counts().head(5)
                             
                             with col1:
                                 st.write(f"**{category}**")
                                 
-                                for idx, (window, count) in enumerate(window_counts.items(), 1):
+                                for idx, (app, count) in enumerate(app_counts.items(), 1):
                                     pct = (count / len(category_data) * 100)
-                                    st.write(f"{idx}. {window[:50]}")
+                                    st.write(f"{idx}. {app}")
                                     st.caption(f"{count} times ({pct:.1f}%)")
                             
                             with col2:
-                                app_names = [w.split(' - ')[-1] if ' - ' in w else w for w in window_counts.index]
                                 fig = px.bar(
-                                    x=window_counts.values,
-                                    y=[name[:30] for name in app_names],
+                                    x=app_counts.values,
+                                    y=app_counts.index,
                                     orientation='h',
                                     title=f"Top Apps - {category}",
-                                    labels={'x': 'Count', 'y': 'App'}
+                                    labels={'x': 'Count', 'y': 'App'},
+                                    text=app_counts.values
                                 )
                                 fig.update_layout(height=250, showlegend=False)
                                 st.plotly_chart(fig, width='stretch')
                             
                             with col3:
+                                app_types = category_data["App_Type"].value_counts()
+                                st.write(f"**App Types**")
+                                for app_type, count in app_types.head(3).items():
+                                    st.caption(f"{app_type}: {count}")
+                                
+                                st.divider()
+                                
                                 st.metric(
                                     f"{category} Total",
                                     len(category_data),
@@ -257,6 +261,7 @@ if "error" not in data_response or not data_response["error"]:
                                 )
                         
                         st.divider()
+                
         else:
             st.info("Run the pipeline to see activity breakdown")
         

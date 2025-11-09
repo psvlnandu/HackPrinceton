@@ -194,7 +194,7 @@ def print_enrichment_summary(df):
 
 if __name__ == '__main__':
     # Enrich your existing CSV
-    enriched = enrich_activity_log("activity_log01.csv", output_file="activity_log_enriched01.csv")
+    enriched = enrich_activity_log("activity_log02.csv", output_file="activity_log_enriched01.csv")
     
     # Print summary stats
     print_enrichment_summary(enriched)

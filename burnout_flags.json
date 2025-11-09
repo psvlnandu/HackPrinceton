@@ -1,38 +1,46 @@
 {
-  "timestamp": "2025-11-09T03:03:03.754235",
-  "burnout_risk_score": 9.0,
-  "risk_level": "CRITICAL \u26d4",
+  "timestamp": "2025-11-09T05:51:53.613212",
+  "burnout_risk_score": 8.0,
+  "risk_level": "HIGH \ud83d\udd34",
   "top_insights": [
-    "Extremely high window switching rate indicative of excessive context switching and cognitive fragmentation.",
-    "Significant amount of micro-sessions leading to inefficient work patterns and potential cognitive fatigue.",
-    "Extended active hours without evening work, possibly suggesting inadequate or poorly positioned breaks during the day."
+    "The switching rate is critically high, averaging 132.8 switches/hour and peaking at 324 switches/hour, much higher than the sustainable rate of 20-40/hour.",
+    "52.5% of sessions are less than half the average session duration, indicative of constant task switching and fragmented work pattern.",
+    "All work occurs in the evening, which likely interferes with the individual's circadian rhythms and sleep cycle, contributing to burnout risk.",
+    "Extended sessions (>200% of average) occurring 18.7% of the time implies prolonged work without breaks, indicative of potential overwork.",
+    "The total unique windows detected is 87, indicating high contextual shifting demanding cognitive resources."
   ],
-  "flags_detected": 4,
+  "flags_detected": 5,
   "flags": [
     {
       "category": "Fragmentation",
       "severity": 10,
-      "message": "The average switching rate is critically high at 188.3/hr with a peak at 408/hr, far exceeding sustainable levels. This indicates intense context switching and fragmentation.",
-      "prescription": "Implement dedicated focus periods using techniques like the Pomodoro Technique, where you work for 25 minutes on a single task with a 5-minute break to reduce context switching."
+      "message": "The user has a critically high average switching rate of 132.8/hour and peak of 324/hour, indicating an unsustainable level of context-switching.",
+      "prescription": "Implement strict time-blocking strategies to consolidate focus blocks, aiming to limit context switches to under 40/hour."
     },
     {
       "category": "Session Pattern",
       "severity": 8,
-      "message": "Nearly half (49.8%) of sessions are significantly brief. Average session duration of 1.5 minutes suggests frequent interruptions.",
-      "prescription": "Structure work with longer, uninterrupted focus sessions of at least 25 minutes to improve depth of work and concentration, followed by brief breaks."
+      "message": "52.5% of sessions are brief, suggesting excessive interruption and reduced productivity.",
+      "prescription": "Set clear objectives for each session and use techniques like the Pomodoro Technique to maintain focus."
+    },
+    {
+      "category": "Sleep Disruption",
+      "severity": 7,
+      "message": "100% evening work potentially impacts natural sleep cycles, leading to reduced sleep quality and increased burnout risk.",
+      "prescription": "Gradually shift work sessions to earlier in the day, aiming for a minimum 3-hour work-free period before bedtime to enhance sleep quality."
     },
     {
       "category": "Overwork",
-      "severity": 7,
-      "message": "Active for 13 hours with work evenly spread across morning to night, suggesting potential for burnout despite no evening work.",
-      "prescription": "Incorporate structured rest periods and enforce a maximum working period of 8-9 hours with scheduled breaks to ensure recovery."
+      "severity": 6,
+      "message": "Extended sessions longer than twice the average are noted 18.7% of the time, risking reduced cognitive recovery.",
+      "prescription": "Schedule regular short breaks between extended periods to ensure cognitive recovery and manage fatigue effectively."
     },
     {
-      "category": "Temporal Disruption",
-      "severity": 6,
-      "message": "4.5% early morning work and extended active hours could negatively impact sleep quality if not balanced with rest.",
-      "prescription": "Ensure consistent sleep schedule by avoiding work sessions before 7 AM and after 6 PM. Maintain regular sleep-wake cycles to support circadian health."
+      "category": "Digital Ergonomics",
+      "severity": 7,
+      "message": "With 87 unique windows accessed, there is significant cognitive load required to manage complex digital environments.",
+      "prescription": "Simplify digital environments by reducing open windows and using tool integrations to streamline task management. Limit active windows to fewer than 10 at a time."
     }
   ],
-  "metrics_summary": "\nWORK SESSION METRICS:\n- Total logged time: 7.94 hours\n- Total window switches: 1493\n- Average switching rate: 188.3 switches/hour\n- Peak switching rate: 408.0 switches/hour\n- Average session duration: 1.5 minutes\n\nSESSION PATTERNS:\n- Brief sessions (<50% of average): 49.8%\n- Extended sessions (>200% of average): 15.4%\n- Unique windows detected: 171\n\nTEMPORAL PATTERNS:\n- Evening work (after 6 PM): 0.0%\n- Early morning work (before 7 AM): 4.5%\n- Hours active: 13\n- Time distribution: {'Afternoon': 2062, 'Morning': 1814, 'Midday': 1252, 'Night': 260, 'Early_Morning': 195, 'Evening': 134}\n\nRECENT ACTIVITY INTENSITY:\n- Max recent switching (last 15 min): 102 switches\n- Average unique windows in last 10 intervals: 2.3\n"
+  "metrics_summary": "\nWORK SESSION METRICS:\n- Total logged time: 3.59 hours\n- Total window switches: 482\n- Average switching rate: 132.8 switches/hour\n- Peak switching rate: 324.0 switches/hour\n- Average session duration: 2.3 minutes\n\nSESSION PATTERNS:\n- Brief sessions (<50% of average): 52.5%\n- Extended sessions (>200% of average): 18.7%\n- Unique windows detected: 87\n\nTEMPORAL PATTERNS:\n- Evening work (after 6 PM): 100.0%\n- Early morning work (before 7 AM): 0.0%\n- Hours active: 5\n- Time distribution: {'Night': 2083, 'Evening': 503}\n\nRECENT ACTIVITY INTENSITY:\n- Max recent switching (last 15 min): 81 switches\n- Average unique windows in last 10 intervals: 2.2\n"
 }

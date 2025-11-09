@@ -100,7 +100,7 @@ def main():
     
     # STAGE 2: Parallel agents (1, 2A, 2B)
     parallel_tasks = [
-        ("python agent_1_classification.py", "Agent 1 - Classifying activities", "AGENT1"),
+        ("python agent_1_RAG_Classification.py", "Agent 1 - RAG Classifying activities", "AGENT1"),
         ("python agent_2_fragmentation.py", "Agent 2A - Analyzing fragmentation", "AGENT2A"),
         ("python agent_2_burnout.py", "Agent 2B - Detecting burnout patterns", "AGENT2B"),
     ]
