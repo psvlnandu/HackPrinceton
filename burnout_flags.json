@@ -1,57 +1,37 @@
 {
-  "timestamp": "2025-11-08T22:13:29.710275",
-  "burnout_risk_score": 8.4,
-  "risk_level": "HIGH \ud83d\udd34",
+  "timestamp": "2025-11-09T03:03:03.754235",
+  "burnout_risk_score": 9.0,
+  "risk_level": "CRITICAL \u26d4",
   "top_insights": [
-    "Critical context switching: 188.3 switches/hour on average (normal 20\u201340; critical >100), peak 408/hour.",
-    "Severe fragmentation: avg session 1.5 min; 49.8% of sessions under 45 seconds; 171 unique windows.",
-    "Work is spread across a 13-hour active span for 7.94h logged, increasing \"always-on\" load despite moderate total hours.",
-    "Circadian hygiene mostly intact (0% evening work); minor early-morning work (4.5%) could nibble at sleep if it grows.",
-    "Recent acute overload: 102 switches in 15 minutes (408/hour) with ~2\u20133 windows per interval, indicating ping\u2011ponging."
+    "Extremely high window switching rate indicative of excessive context switching and cognitive fragmentation.",
+    "Significant amount of micro-sessions leading to inefficient work patterns and potential cognitive fatigue.",
+    "Extended active hours without evening work, possibly suggesting inadequate or poorly positioned breaks during the day."
   ],
-  "flags_detected": 7,
+  "flags_detected": 4,
   "flags": [
     {
-      "category": "Context Switching Overload",
-      "severity": 10,
-      "message": "Average 188.3 switches/hour (\u22484.7\u00d7 the high threshold and >9\u00d7 the upper end of normal); peak 408/hour. This is not cognitively sustainable and will degrade accuracy, memory, and decision quality.",
-      "prescription": "Starting next session, run 25\u201340 min Focus blocks with Do Not Disturb on, only 1\u20132 windows visible, and batch comms at the top of each hour; target <80 switches/hour this week, <60/hour next."
-    },
-    {
       "category": "Fragmentation",
-      "severity": 9,
-      "message": "Half of all sessions are under 45 seconds and average session is 1.5 minutes, plus 171 unique windows\u2014strong signal of micro\u2011tasking and attentional residue.",
-      "prescription": "Create 3 dedicated virtual desktops by project and keep only the active project visible during a block; collapse other tabs with OneTab (or equivalent) before each block."
+      "severity": 10,
+      "message": "The average switching rate is critically high at 188.3/hr with a peak at 408/hr, far exceeding sustainable levels. This indicates intense context switching and fragmentation.",
+      "prescription": "Implement dedicated focus periods using techniques like the Pomodoro Technique, where you work for 25 minutes on a single task with a 5-minute break to reduce context switching."
     },
     {
-      "category": "Workday Span / Boundary Erosion",
-      "severity": 7,
-      "message": "7.94 hours of work spread over 13 active hours increases perceived workload and reduces recovery opportunities.",
-      "prescription": "Compress into a 9-hour work window (e.g., 08:30\u201317:30) and set a daily 15\u2011min shutdown ritual with a hard stop alarm; no reopening work apps after the stop."
-    },
-    {
-      "category": "Ultradian Cycle Misalignment",
-      "severity": 7,
-      "message": "Only 15.4% of sessions exceed 3 minutes\u2014far short of the sustained 60\u201390 min cycles associated with peak cognitive output.",
-      "prescription": "Schedule 3\u20134 protected cycles/day: 45\u201360 min single\u2011task focus + 10\u201315 min away\u2011from\u2011screen break; increase to 75\u201390 min as fragmentation drops."
-    },
-    {
-      "category": "Circadian / Sleep Protection",
-      "severity": 3,
-      "message": "Zero evening work is protective; early\u2011morning work at 4.5% is minor but could erode sleep if it expands.",
-      "prescription": "Maintain a fixed sleep window and defer cognitive work until after 07:00 with 5\u201310 min of outdoor light; set a caffeine cutoff 8 hours before bedtime."
-    },
-    {
-      "category": "Recent Intensity Spike",
+      "category": "Session Pattern",
       "severity": 8,
-      "message": "102 switches in the last 15 minutes indicates acute overload and loss of task control.",
-      "prescription": "If any 15\u2011min interval exceeds 80 switches, trigger a 5\u2011min walk + 1\u2011min box breathing (4\u20114\u20114\u20114) + 3\u2011min plan reset; resume with one defined next action."
+      "message": "Nearly half (49.8%) of sessions are significantly brief. Average session duration of 1.5 minutes suggests frequent interruptions.",
+      "prescription": "Structure work with longer, uninterrupted focus sessions of at least 25 minutes to improve depth of work and concentration, followed by brief breaks."
     },
     {
-      "category": "Cognitive Scope Creep",
-      "severity": 8,
-      "message": "171 unique windows suggests too many concurrent contexts, elevating decision fatigue and errors.",
-      "prescription": "Daily cap: choose 3 priorities and at most 2 concurrent projects per half\u2011day; park everything else on a Later list reviewed at set times (11:30 and 16:30)."
+      "category": "Overwork",
+      "severity": 7,
+      "message": "Active for 13 hours with work evenly spread across morning to night, suggesting potential for burnout despite no evening work.",
+      "prescription": "Incorporate structured rest periods and enforce a maximum working period of 8-9 hours with scheduled breaks to ensure recovery."
+    },
+    {
+      "category": "Temporal Disruption",
+      "severity": 6,
+      "message": "4.5% early morning work and extended active hours could negatively impact sleep quality if not balanced with rest.",
+      "prescription": "Ensure consistent sleep schedule by avoiding work sessions before 7 AM and after 6 PM. Maintain regular sleep-wake cycles to support circadian health."
     }
   ],
   "metrics_summary": "\nWORK SESSION METRICS:\n- Total logged time: 7.94 hours\n- Total window switches: 1493\n- Average switching rate: 188.3 switches/hour\n- Peak switching rate: 408.0 switches/hour\n- Average session duration: 1.5 minutes\n\nSESSION PATTERNS:\n- Brief sessions (<50% of average): 49.8%\n- Extended sessions (>200% of average): 15.4%\n- Unique windows detected: 171\n\nTEMPORAL PATTERNS:\n- Evening work (after 6 PM): 0.0%\n- Early morning work (before 7 AM): 4.5%\n- Hours active: 13\n- Time distribution: {'Afternoon': 2062, 'Morning': 1814, 'Midday': 1252, 'Night': 260, 'Early_Morning': 195, 'Evening': 134}\n\nRECENT ACTIVITY INTENSITY:\n- Max recent switching (last 15 min): 102 switches\n- Average unique windows in last 10 intervals: 2.3\n"

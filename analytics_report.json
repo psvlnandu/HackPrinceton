@@ -1,0 +1,188 @@
+{
+  "timestamp": "2025-11-09T03:03:05.319379",
+  "energy_levels": {
+    "peak_hours": [
+      16,
+      15
+    ],
+    "peak_energy": 93.2,
+    "low_hours": [
+      3,
+      7
+    ],
+    "low_energy": 0.0,
+    "hourly_data": [
+      {
+        "hour": 16,
+        "energy": 93.2,
+        "high_load_pct": 93.2,
+        "comm_pct": 0.0,
+        "low_load_pct": 6.8,
+        "context_switches": 229.22,
+        "activity_count": 710
+      },
+      {
+        "hour": 15,
+        "energy": 70.2,
+        "high_load_pct": 70.2,
+        "comm_pct": 5.4,
+        "low_load_pct": 24.4,
+        "context_switches": 263.02,
+        "activity_count": 574
+      },
+      {
+        "hour": 13,
+        "energy": 59.4,
+        "high_load_pct": 59.4,
+        "comm_pct": 11.8,
+        "low_load_pct": 28.7,
+        "context_switches": 228.06,
+        "activity_count": 609
+      },
+      {
+        "hour": 9,
+        "energy": 52.1,
+        "high_load_pct": 52.1,
+        "comm_pct": 1.1,
+        "low_load_pct": 46.8,
+        "context_switches": 187.25,
+        "activity_count": 363
+      },
+      {
+        "hour": 10,
+        "energy": 47.6,
+        "high_load_pct": 47.6,
+        "comm_pct": 0.0,
+        "low_load_pct": 52.4,
+        "context_switches": 176.94,
+        "activity_count": 716
+      },
+      {
+        "hour": 1,
+        "energy": 44.9,
+        "high_load_pct": 44.9,
+        "comm_pct": 0.8,
+        "low_load_pct": 54.3,
+        "context_switches": 143.02,
+        "activity_count": 256
+      },
+      {
+        "hour": 14,
+        "energy": 43.3,
+        "high_load_pct": 43.3,
+        "comm_pct": 0.0,
+        "low_load_pct": 56.7,
+        "context_switches": 154.88,
+        "activity_count": 720
+      },
+      {
+        "hour": 12,
+        "energy": 43.1,
+        "high_load_pct": 43.1,
+        "comm_pct": 1.1,
+        "low_load_pct": 55.9,
+        "context_switches": 151.81,
+        "activity_count": 641
+      },
+      {
+        "hour": 8,
+        "energy": 30.2,
+        "high_load_pct": 30.2,
+        "comm_pct": 5.8,
+        "low_load_pct": 64.0,
+        "context_switches": 188.59,
+        "activity_count": 189
+      },
+      {
+        "hour": 11,
+        "energy": 27.9,
+        "high_load_pct": 27.9,
+        "comm_pct": 0.1,
+        "low_load_pct": 72.0,
+        "context_switches": 141.43,
+        "activity_count": 675
+      },
+      {
+        "hour": 17,
+        "energy": 12.9,
+        "high_load_pct": 12.9,
+        "comm_pct": 0.0,
+        "low_load_pct": 87.1,
+        "context_switches": 172.62,
+        "activity_count": 116
+      },
+      {
+        "hour": 3,
+        "energy": 0.0,
+        "high_load_pct": 0.0,
+        "comm_pct": 0.0,
+        "low_load_pct": 100.0,
+        "context_switches": 156.0,
+        "activity_count": 1
+      },
+      {
+        "hour": 7,
+        "energy": 0.0,
+        "high_load_pct": 0.0,
+        "comm_pct": 0.0,
+        "low_load_pct": 100.0,
+        "context_switches": 156.0,
+        "activity_count": 1
+      }
+    ]
+  },
+  "cognitive_load": {
+    "current": 3.0,
+    "status": "LOW",
+    "high_load_pct": 41.7,
+    "comm_pct": 0.0,
+    "low_load_pct": 58.3,
+    "context_switches": 171.0
+  },
+  "flow_state": {
+    "flow_detected": true,
+    "session_count": 4,
+    "sessions": [
+      {
+        "start": "03:44 PM",
+        "duration_minutes": 12.0,
+        "app": "Removing secrets before pushin",
+        "confidence": 0.95
+      },
+      {
+        "start": "03:58 PM",
+        "duration_minutes": 21.0,
+        "app": "server.py - HackPrinceton [Cod",
+        "confidence": 0.95
+      },
+      {
+        "start": "04:32 PM",
+        "duration_minutes": 19.0,
+        "app": "Removing secrets before pushin",
+        "confidence": 0.95
+      }
+    ]
+  },
+  "work_life_balance": {},
+  "burnout_prediction": {
+    "current": 9.0,
+    "trajectory": "RISING",
+    "days_to_critical": 3,
+    "predicted_7days": 9.3,
+    "risk_level": "CRITICAL"
+  },
+  "predictive_health_score": {
+    "overall": 4.8,
+    "status": "HIGH_RISK",
+    "components": {
+      "burnout": 1.0,
+      "cognitive_load": 7.0,
+      "work_life_balance": 5,
+      "recovery": 4.0,
+      "flow_state": 9.5
+    },
+    "projection_7days": 3.8,
+    "recommendation": "CRITICAL"
+  },
+  "ai_insights": "Could not generate insights: 'coroutine' object has no attribute 'choices'"
+}

@@ -106,7 +106,7 @@ Return a BurnoutAnalysis JSON with specific severity scores and personalized pre
         return BurnoutAnalysis.model_validate_json(arguments)
     
     except Exception as e:
-        print(f"⚠️ LLM call failed: {e}")
+        print(f"LLM call failed: {e}")
         # Return safe default
         return BurnoutAnalysis(
             burnout_risk_score=5.0,
@@ -176,8 +176,8 @@ def run_burnout_detection():
     try:
         df = pd.read_csv(INPUT_FILE)
     except FileNotFoundError:
-        print(f"❌ ERROR: {INPUT_FILE} not found.")
-        print(f"   Make sure you ran: python util.py")
+        print(f"ERROR: {INPUT_FILE} not found.")
+        print(f"Make sure you ran: python util.py")
         return None
     
     print("--- Running Agent 2B: Burnout Pattern Detector (LLM-Powered) ---\n")
@@ -222,9 +222,7 @@ def run_burnout_detection():
     
     with open(OUTPUT_FILE, 'w') as f:
         json.dump(report, f, indent=2)
-    
-    print(f"\n✅ Report saved to: {OUTPUT_FILE}\n")
-    
+        
     return report
 
 

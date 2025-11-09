@@ -13,7 +13,7 @@ import asyncio
 load_dotenv(override=True)
 
 API_HOST = os.getenv("API_HOST", "github")
-FILE_NAME = "activity_log01.csv"
+FILE_NAME = "activity_log_enriched01.csv"
 CLASSIFIED_FILE_NAME = "classified_activity01.csv"
 CONCURRENCY_LIMIT = 50 
 
@@ -27,17 +27,44 @@ else:
 
 print(f'model name set to {MODEL_NAME}')
 # Defines the three valid categories for the LLM to choose from
+
+
 class ActivityClassification(BaseModel):
     category: str = Field(description="One of 'High Load', 'Communication', or 'Low Load'.")
     confidence_reason: str = Field(description="A brief explanation of why this window title belongs in the assigned category.")
+    app_name: str = Field(description="The name of the application or platform (e.g., VSCode, Claude, Chrome, Slack, Codespaces)")
+    app_type: str = Field(description="Type of app: 'Development', 'AI_Assistant', 'Browser', 'Communication', 'Editor', 'Other'")
 
 SYSTEM_PROMPT = """
-You are an expert cognitive workload classifier. Your task is to analyze user-provided window titles and categorize them into one of the three classes: 'High Load', 'Communication', or 'Low Load'. 
-Use relational and semantic reasoning. For example:
-- VS Code, terminals, and Notion planning are 'High Load' (Deep, complex work).
-- Email, Discord, and Slack are 'Communication' (Reactive, interrupt-driven).
-- Simple web browsing or media launchers are 'Low Load'.
-You MUST return your answer in the specified JSON format.
+You are an expert cognitive workload classifier for knowledge workers.
+
+Your task: Analyze window titles and classify each into ONE of three categories based on cognitive demand and work type.
+
+CATEGORIES:
+
+'High Load' - Deep, focused work requiring sustained attention and mental effort:
+- Requires active creation, problem-solving, or complex thinking
+- Examples: coding (VS Code, IDE), writing complex documents, design work (Photoshop, Blender, AutoCAD), data analysis, debugging, technical planning
+- If someone is ACTIVELY WORKING on a task that requires concentration, it's HIGH LOAD
+
+'Communication' - Reactive, interrupt-driven activities with low cognitive commitment:
+- Designed for back-and-forth interaction
+- Examples: Slack, Discord, Teams, Gmail, Outlook, Zoom, Meetings, social media while chatting
+- Often context-switches and breaks focus
+
+'Low Load' - Passive consumption or system tasks requiring minimal cognitive effort:
+- No active creation or problem-solving
+- Examples: casual browsing, Netflix, YouTube (watching), music players, file explorers, system settings
+- Simple, routine actions
+
+DECISION RULES (in order of importance):
+1. PURPOSE over app name - "Claude for debugging" = HIGH LOAD (you're working), "ChatGPT scrolling" = LOW LOAD
+2. If it involves CODING, DESIGN, ANALYSIS, PLANNING, DEBUGGING → HIGH LOAD
+3. If it's COLLABORATIVE COMMUNICATION (Slack, Teams, Email) → COMMUNICATION
+4. If it's PASSIVE CONSUMPTION (YouTube, Netflix, browsing) → LOW LOAD
+5. Ambiguous cases: "Is the user actively creating/solving something?" → HIGH LOAD. "Passively consuming?" → LOW LOAD
+
+Be concise in your reasoning. Classify with confidence - the LLM knows the difference between work and play.
 """
 
 async def call_llm_for_classification_with_retry(title: str, semaphore: asyncio.Semaphore, max_retries: int = 5) -> ActivityClassification:
@@ -52,15 +79,12 @@ async def call_llm_for_classification_with_retry(title: str, semaphore: asyncio.
             "parameters": ActivityClassification.model_json_schema()
         }
     }
-
     async with semaphore:
         for attempt in range(max_retries):
             try:
                 if attempt > 0:
-                    # Exponential backoff using asyncio.sleep
-                    await asyncio.sleep(1.0 * (2 ** attempt)) 
+                    await asyncio.sleep(1.0 * (2 ** attempt))
                 
-                # *** CRUCIAL FIX: Use await for the asynchronous client call ***
                 response = await client.chat.completions.create( 
                     model=MODEL_NAME,
                     messages=[
@@ -69,8 +93,8 @@ async def call_llm_for_classification_with_retry(title: str, semaphore: asyncio.
                     ],
                     tools=[tool_spec],
                     tool_choice={"type": "function", "function": {"name": "ActivityClassification"}},
+                    temperature=0.3,  # More deterministic for classification
                 )
-
                 tool_call = response.choices[0].message.tool_calls[0]
                 arguments = tool_call.function.arguments
                 
@@ -78,89 +102,79 @@ async def call_llm_for_classification_with_retry(title: str, semaphore: asyncio.
                 
             except Exception as e:
                 if attempt == max_retries - 1:
-                    print(f"FAILED classification for '{title[:30]}...' after {max_retries} attempts.")
+                    print(f"❌ FAILED: '{title[:40]}...' after {max_retries} attempts")
                     return ActivityClassification(
                         category='UNCLASSIFIED_API_FAIL', 
-                        confidence_reason=f"API failed after {max_retries} retries: {e}"
+                        confidence_reason=f"API error: {str(e)[:50]}"
                     )
-    return ActivityClassification(category='UNCLASSIFIED_ERROR', confidence_reason="Unknown error during classification.")
-
+    
+    return ActivityClassification(category='UNCLASSIFIED_ERROR', confidence_reason="Unknown error")
 
 async def agent_1_classify_and_calculate_async():
-    """Main function to orchestrate the asynchronous classification."""
-    print(f"--- Running Agent 1: ASYNCHRONOUS Classification using {MODEL_NAME} ---")
+    """Main function to orchestrate async classification."""
+    print(f"--- Running Agent 1: Classification using {MODEL_NAME} ---\n")
     
     try:
         df = pd.read_csv(FILE_NAME)
         df = df.dropna(subset=['Window_Title']) 
         df['Timestamp'] = pd.to_datetime(df['Timestamp'])
     except Exception as e:
-        print(f"Error reading {FILE_NAME}: {e}")
+        print(f"❌ Error reading {FILE_NAME}: {e}")
         return
-
-    unique_titles = df['Window_Title'].unique()
     
-    print(f"Found {len(unique_titles)} unique titles to classify out of {len(df)} total log entries.")
-    print(f"Starting classification with concurrency limit of {CONCURRENCY_LIMIT}...")
-
-    # Create tasks for all unique titles
+    unique_titles = df['Window_Title'].unique()
+    print(f"📊 Found {len(unique_titles)} unique titles to classify out of {len(df)} total entries\n")
+    
+    # Create classification tasks
     semaphore = asyncio.Semaphore(CONCURRENCY_LIMIT)
-    # Tasks are created using the async function
     classification_tasks = [call_llm_for_classification_with_retry(title, semaphore) for title in unique_titles]
-
-    # **CRUCIAL FIX 4: Run tasks concurrently using asyncio.gather**
+    
+    print(f"🔄 Starting async classification (concurrency: {CONCURRENCY_LIMIT})...")
     results = await asyncio.gather(*classification_tasks)
     
-    # Create cache from results
+    # Create classification cache
     classification_cache = {title: result for title, result in zip(unique_titles, results)}
-        
-    # Apply results back to the main DataFrame
+    
+    # Apply classifications to DataFrame
     df['Category'] = df['Window_Title'].map(lambda x: classification_cache.get(x).category)
     df['Confidence_Reason'] = df['Window_Title'].map(lambda x: classification_cache.get(x).confidence_reason)
-
-    print("\nClassification complete.")
-
-    # 2. Calculate Metrics
-    df['Duration_Seconds'] = 5 
+    df['App_Name'] = df['Window_Title'].map(lambda x: classification_cache.get(x).app_name)
+    df['App_Type'] = df['Window_Title'].map(lambda x: classification_cache.get(x).app_type)
+    
+    print("✅ Classification complete!\n")
+    
+    # ===== CALCULATE METRICS =====
+    df['Duration_Seconds'] = 5  # Each row = 5 seconds
     
     total_time = df['Duration_Seconds'].sum()
     category_times = df.groupby('Category')['Duration_Seconds'].sum()
-
+    
     high_load_time = category_times.get('High Load', 0)
     comm_time = category_times.get('Communication', 0)
+    low_load_time = category_times.get('Low Load', 0)
     
-    # FQS Calculation
-    productive_time = high_load_time + comm_time
-    fqs_score = (high_load_time / productive_time) * 100 if productive_time > 0 else 0
+    # FQS Calculation: % of time spent in High Load (deep work)
+    fqs_score = (high_load_time / total_time * 100) if total_time > 0 else 0
     
-    # --- INSIGHT 1: Focus Quality Score (FQS) ---
-    # We add FQS_Score to the DataFrame before saving for Agent 2 to reuse
+    # Add FQS to DataFrame for downstream agents
     df['FQS_Score'] = fqs_score
     
-    print("\n--- Insight 1: Focus Quality Score (FQS) ---")
-    print(f"Total Logged Time: {total_time / 3600:.2f} hours")
-    print(f"High Load (Deep Work) Time: {high_load_time / 60:.2f} minutes")
-    print(f"Communication (Reactive) Time: {comm_time / 60:.2f} minutes")
-    print(f"FQS (Focus Quality Score, higher is better): {fqs_score:.2f}%")
+    # Calculate hour of day for Energy Levels agent
+    df['Hour_of_Day'] = df['Timestamp'].dt.hour
     
-    # Save the classified data for Agent 2
+    
+    # Save for downstream agents
     df.to_csv(CLASSIFIED_FILE_NAME, index=False)
-    print(f"\nClassification data saved to: {CLASSIFIED_FILE_NAME}")
-
 
 if __name__ == '__main__':
     try:
-        # Check for necessary packages visually (the runtime environment handles imports, but this helps)
-        import sys
-        if 'pandas' not in sys.modules or 'openai' not in sys.modules:
-             pass 
         asyncio.run(agent_1_classify_and_calculate_async())
-        
-    except ImportError:
-        print("\nERROR: Required Python packages not found. Please ensure you ran: pip install pandas pydantic openai\n")
+    except ImportError as e:
+        print(f"ERROR: Missing packages - {e}")
+        print("Run: pip install pandas pydantic openai python-dotenv")
     except Exception as e:
-        if "OPENAI_KEY environment variable not set" in str(e):
-             print(f"\nFATAL ERROR: {e}")
-             print("Please set your OPENAI_KEY in your environment variables or in the .env file.")
+        if "OPENAI_KEY" in str(e):
+            print(f"FATAL: {e}")
+            print("Set OPENAI_KEY in .env or environment variables")
         else:
-             print(f"\nFATAL ERROR: {e}")
+            print(f"FATAL: {e}")

@@ -22,7 +22,7 @@ Then, Agent 1 will ADD the LLM classifications (Category, Confidence_Reason)
 and these enriched features work together with that.
 """
 
-def enrich_activity_log(input_file, output_file="activity_log_enriched.csv"):
+def enrich_activity_log(input_file,output_file):
     """
     Adds temporal and session features WITHOUT touching window title interpretation.
     """
