@@ -1,4 +1,5 @@
 # HackPrinceton
+## Cognitive Metabolic AI Coach
 
 In order to run the porject:
 - open codespace
